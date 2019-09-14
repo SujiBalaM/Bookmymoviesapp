@@ -10,6 +10,7 @@ coverage
 # dependencies
 /node_modules
 package-lock.json
+/documentation
 
 # profiling files
 chrome-profiler-events.json

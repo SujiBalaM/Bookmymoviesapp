@@ -9,7 +9,8 @@
     "test": "ng test",
     "test:ci": "ng test --watch=false --codeCoverage=true",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "compodoc": "npx compodoc -p src/tsconfig.app.json"
   },
   "husky": {
     "hooks": {
@@ -41,6 +42,7 @@
     "@ngrx/store-devtools": "^7.0.0-beta.1",
     "angular-6-social-login": "^1.1.1",
     "angular-font-awesome": "^3.1.2",
+    "compodoc": "0.0.41",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
