@@ -1,31 +1,33 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { SeatReservationModalComponent } from './../../../../shared/components/modals/seat-reservation-modal/seat-reservation-modal.component';
+import { Component, OnInit, Input, OnChanges, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
-// tslint:disable-next-line:max-line-length
-import { SeatReservationModalComponent } from '../../../../shared/components/modals/seat-reservation-modal/seat-reservation-modal.component';
 import { FormControl } from '@angular/forms';
 import { BASE_URL, TMDB_URLS } from '../../../../shared/config';
 import { Movie } from '../../../../search/models/search.model';
 import { PreBookingComponent } from '../../../../shared/components/modals/pre-booking/pre-booking.component';
+import { Subscription } from 'rxjs';
+import { HomeConstants } from './../../../home.constants';
+
 
 @Component({
   selector: 'app-movie-card',
   templateUrl: './movie-card.component.html',
-  styleUrls: ['./movie-card.component.scss']
+  styleUrls: ['./movie-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MovieCardComponent implements OnInit, OnChanges {
+export class MovieCardComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   movie;
   @Input()
   theaterList;
   @Input()
   category;
-
+  private subscription: Subscription;
   imagesPath = TMDB_URLS.IMAGE_URL;
   castCrewPath = TMDB_URLS.CAST_CREW_SMALL;
-  movieName = 'Robot 2.O';
   dialogResult;
-  rating = 4.7;
-  totalReviews = 51;
+  rating = '4.7';
+  totalReviews = '51';
 
   minDate = new Date();
   date = new FormControl(this.minDate);
@@ -33,9 +35,9 @@ export class MovieCardComponent implements OnInit, OnChanges {
   selectedTheater;
   selectedTime;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnChanges() {
     this.selectTheater = new FormControl();
@@ -61,7 +63,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
     const dialogRef = this.dialog.open(PreBookingComponent, {
       disableClose: true
     });
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => { });
   }
 
   openDialog(): void {
@@ -78,8 +80,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
     bookingInstance.time = this.selectedTime;
     bookingInstance.movieList = this.movie;
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(`Dialog closed: ${result}`);
-      //  this.dialogResult = result;
+
     });
   }
 
@@ -89,5 +90,8 @@ export class MovieCardComponent implements OnInit, OnChanges {
     } else {
       return -1;
     }
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

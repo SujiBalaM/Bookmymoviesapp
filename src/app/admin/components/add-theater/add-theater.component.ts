@@ -1,3 +1,4 @@
+import { AdminConstants } from './../../admin.constants';
 import { Component, OnInit, Output, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -8,13 +9,14 @@ import { MatDialog } from '@angular/material';
   styleUrls: ['./add-theater.component.scss']
 })
 export class AddTheaterComponent implements OnInit {
+  divLabel = AdminConstants.NEW_THEATER;
 
   newTheater = this.fb.group({
     tid: ['', Validators.required],
     name: ['', Validators.required],
     city: ['', Validators.required],
     gLocation: ['', Validators.required],
-    capacity: ['', Validators.required]
+    capacity: ['', Validators.required],
   });
 
   @Output() addTheater = new EventEmitter();

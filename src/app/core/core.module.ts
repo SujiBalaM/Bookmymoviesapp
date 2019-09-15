@@ -1,7 +1,7 @@
+
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ShellComponent } from './shell/shell.component';
-import { MaterialModule } from '../material.module';
 import { AppRoutingModule } from './../app-routing.module';
 import { UserDetailService } from 'src/app/core/services/userDetails.service';
 import { HeaderComponent } from './shell/header/header.component';
@@ -9,6 +9,7 @@ import { AuthService } from 'angular-6-social-login';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from 'angular-6-social-login';
 import { SignInService } from '../core/shell/header/service/signin.service';
+import { SharedModule } from './../shared/shared.module';
 
 export function getAuthServiceConfigs() {
   const config = new AuthServiceConfig([
@@ -25,7 +26,7 @@ export function getAuthServiceConfigs() {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CommonModule,
-    MaterialModule,
+    SharedModule,
     AppRoutingModule,
     FlexLayoutModule
   ],
@@ -37,6 +38,6 @@ export function getAuthServiceConfigs() {
     SignInService,
     AuthService
   ],
-  exports: [MaterialModule, HeaderComponent]
+  exports: [HeaderComponent]
 })
 export class CoreModule { }

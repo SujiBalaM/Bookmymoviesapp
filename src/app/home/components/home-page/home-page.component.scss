@@ -9,7 +9,12 @@
 }
 
 .virtualScrollContainer {
-  height: 100vh;
+  height: 900px;
+  width: 100%;
+}
+.virtual-store-container {
+  height: 455px;
+  width: 100%;
 }
 
 .mat-tab-label-active {
@@ -61,4 +66,10 @@ app-movie-dropdowns {
 .filter {
   margin-left: 80%;
   background-color: rgb(48, 48, 48);
+}
+.movie-container {
+  margin-top: 50px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
 }

@@ -32,7 +32,8 @@ describe('AdminComponent', () => {
         TestBed.configureTestingModule({
             declarations: [AdminComponent],
             schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-            imports: [StoreModule, MaterialModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, BrowserAnimationsModule],
+            imports: [StoreModule, MaterialModule, ReactiveFormsModule, MatDialogModule,
+                MatFormFieldModule, MatInputModule, BrowserAnimationsModule],
             providers: [{ provide: Store, useClass: MockStore },
             { provide: AdminService, useClass: MockAdminService }],
 
@@ -49,7 +50,7 @@ describe('AdminComponent', () => {
         expect(component).toBeTruthy();
     });
     it('should add theater', () => {
-        let spy = spyOn(adminService, 'newTheater');
+        const spy = spyOn(adminService, 'newTheater');
         component.addTheater({ formData: 'xcv' });
 
         expect(spy).toHaveBeenCalled();

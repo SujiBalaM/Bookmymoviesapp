@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Inject, Input, OnChanges, OnDestroy } from '@angular/core';
 import { StoreFeatureModule } from '@ngrx/store';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { SeatReservationModalComponent } from '../../../shared/components/modals/seat-reservation-modal/seat-reservation-modal.component';
@@ -8,13 +8,14 @@ import { Store, State } from '@ngrx/store';
 import * as MovieState from '../../../reducers/index';
 import { TMDB_URLS } from '../../../shared/config';
 import { PreBookingComponent } from '../../../shared/components/modals/pre-booking/pre-booking.component';
-
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-movie-page',
   templateUrl: './movie-page.component.html',
   styleUrls: ['./movie-page.component.scss']
 })
-export class MoviePageComponent implements OnInit, OnChanges {
+export class MoviePageComponent implements OnInit, OnChanges, OnDestroy {
+  private subscription: Subscription;
   imagesPath = TMDB_URLS.IMAGE_URL;
   castCrew = TMDB_URLS.CAST_CREW_BIG;
   @Input() movieDescription;
@@ -48,7 +49,6 @@ export class MoviePageComponent implements OnInit, OnChanges {
     this.date.valueChanges.subscribe((value: Date) => {
       this.selectedDate = value.toJSON();
     });
-    console.log(this.movieDescription);
   }
   checKToDialog() {
     this.category === 'nowPlaying' ? this.openDialog() : this.preBookDialog();
@@ -57,7 +57,7 @@ export class MoviePageComponent implements OnInit, OnChanges {
     const dialogRef = this.dialog.open(PreBookingComponent, {
       disableClose: true
     });
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => { });
   }
   openDialog(): void {
     const dialogRef = this.dialog.open(SeatReservationModalComponent, {
@@ -71,8 +71,7 @@ export class MoviePageComponent implements OnInit, OnChanges {
     bookingInstance.time = this.selectedTime;
     bookingInstance.movieList = this.movieDescription;
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(`Dialog closed: ${result}`);
-      // this.dialogResult = result;
+
     });
   }
   onValChange(val: string) {
@@ -90,5 +89,8 @@ export class MoviePageComponent implements OnInit, OnChanges {
     } else {
       return -1;
     }
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

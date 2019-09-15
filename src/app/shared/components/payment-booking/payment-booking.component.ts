@@ -1,6 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MaterialModule } from '../../../material.module';
 import { MatDialog, MatInputModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ConfirmationModalComponent } from '../../components/modals/confirmation-modal/confirmation-modal.component';
 import { ActivatedRoute } from '@angular/router';

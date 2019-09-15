@@ -2,15 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MovieBookingComponent } from './movie-booking/movie-booking.component';
 import { MaterialModule } from '../material.module';
-import {
-  MatDialogModule,
-  MatCardModule,
-  MatCheckboxModule,
-  MatIconModule,
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA
-} from '@angular/material';
+
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SeatReservationModalComponent } from './components/modals/seat-reservation-modal/seat-reservation-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,6 +13,7 @@ import { PaymentBookingComponent } from './components/payment-booking/payment-bo
 import { SortMoviePipe } from './pipes/sort-movie.pipe';
 import { HomeFilterPipe } from './pipes/home-filter.pipe';
 import { PreBookingComponent } from './components/modals/pre-booking/pre-booking.component';
+
 @NgModule({
   declarations: [
     MovieBookingComponent,
@@ -38,10 +31,6 @@ import { PreBookingComponent } from './components/modals/pre-booking/pre-booking
     CommonModule,
     MaterialModule,
     FlexLayoutModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatDialogModule,
-    MatCardModule
   ],
   exports: [
     MovieBookingComponent,
@@ -49,10 +38,14 @@ import { PreBookingComponent } from './components/modals/pre-booking/pre-booking
     MovieDropdownsComponent,
     SortMoviePipe,
     HomeFilterPipe,
-    PreBookingComponent
+    PreBookingComponent,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
+
   ],
-  providers: [{ provide: MatDialogRef, useValue: {} }, { provide: MAT_DIALOG_DATA, useValue: [] }],
+  providers: [],
   entryComponents: [ConfirmationModalComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SharedModule {}
+export class SharedModule { }

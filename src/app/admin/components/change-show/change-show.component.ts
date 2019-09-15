@@ -1,15 +1,16 @@
-import { Component, OnInit, Input, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { theaterList } from 'src/app/reducers';
 import { AdminService } from '../../services/admin.service';
 import { MatDialog } from '@angular/material';
+import { Subscription } from 'rxjs';
+import { AdminConstants } from '../../admin.constants';
 
 @Component({
   selector: 'app-change-show',
   templateUrl: './change-show.component.html',
   styleUrls: ['./change-show.component.scss']
 })
-export class ChangeShowComponent implements OnInit {
+export class ChangeShowComponent implements OnInit, OnDestroy {
   @Input() theaterList;
   movieInput: FormControl;
   selectTheater: FormControl;
@@ -18,6 +19,12 @@ export class ChangeShowComponent implements OnInit {
   nowShowing = [];
   nowPlaying = [];
   @ViewChild('successDialog') successDialog: TemplateRef<any>;
+  private subscription: Subscription;
+  divLabel = AdminConstants.NEW_MOVIES;
+  saveIcon = AdminConstants.SAVE;
+  cancelIcon = AdminConstants.CANCEL;
+  okIcon = AdminConstants.OK;
+  addIcon = AdminConstants.ADD;
 
   constructor(private adminService: AdminService, private matDialog: MatDialog) {
     this.movieInput = new FormControl();
@@ -54,5 +61,11 @@ export class ChangeShowComponent implements OnInit {
     this.selectTheater.reset();
     this.matDialog.closeAll();
     this.movieResult = [];
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+  trackByFn(index, cast) {
+    return index;
   }
 }

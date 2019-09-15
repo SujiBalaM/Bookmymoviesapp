@@ -9,7 +9,7 @@
       </app-movie-description>
       <h3>Social</h3>
       <div fxLayout="row" class="rating">
-        <div *ngFor="let star of rating">
+        <div *ngFor="let star of rating; trackBy:trackCastandCrew">
           <mat-icon *ngIf="star">star_rate</mat-icon>
           <mat-icon *ngIf="!star">star_border</mat-icon>
         </div>
@@ -40,7 +40,7 @@
             </mat-form-field>
             <mat-form-field class="select-theater">
               <mat-select required [formControl]="selectTheater">
-                <mat-option *ngFor="let theater of theaterList" [value]="theater">
+                <mat-option *ngFor="let theater of theaterList;trackBy:trackCastandCrew" [value]="theater">
                   {{theater.name}}
                 </mat-option>
               </mat-select>
@@ -49,7 +49,7 @@
               fxLayoutGap="3%">
 
               <!-- <button mat-button *ngFor="let time of selectedTheater.shows ">{{time}}</button> -->
-              <button mat-raised-button color="primary" (click)="checKToDialog()" style="color: white"
+              <button mat-raised-button color="primary" (click)="checKToDialog()" class="button"
                 [disabled]="isInvalid()">
                 {{ category === 'nowPlaying' ? 'BOOK' : 'PRE-BOOK' }}</button>
             </div>

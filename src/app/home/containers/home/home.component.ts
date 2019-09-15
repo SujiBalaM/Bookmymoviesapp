@@ -1,9 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Store, State } from '@ngrx/store';
+import { theaterList } from './../../../reducers/index';
+import { MoviesState } from './../../store/reducers/home.reducer';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Store, State, select } from '@ngrx/store';
 import * as MovieState from '../../../reducers/index';
 import * as UserState from '../../../reducers/index';
 
 import { HomeService } from '../../services/home.service';
+import { Subscription, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -11,11 +15,11 @@ import { HomeService } from '../../services/home.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
-  nowPlayingMoviesList: any = [];
-  upcomingMoviesList: any = [];
+  nowPlayingMoviesList: Observable<any[]>;
+  upcomingMoviesList: Observable<any[]>;
   genresList: any = [];
-  theaterList: any = [];
-  userPreference: any = [];
+  theaterList: Observable<any[]>;
+  userPreference: Observable<any>;
 
   constructor(
     private store: Store<MovieState.State>,
@@ -25,18 +29,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.getNewSetofNowPlayingMovies(1);
-    this.store.select(MovieState.nowPlayingMoviesSelector).subscribe(result => (this.nowPlayingMoviesList = result));
-    this.store.select(MovieState.upcomingMovieSelector).subscribe(result => {
-      this.upcomingMoviesList = result;
-    });
-    this.store.select(MovieState.theaterList).subscribe(result => {
-      this.theaterList = Object.values(result);
-      console.log(this.theaterList);
-    });
-    this.userStore.select(UserState.userSelector).subscribe(result => {
-      this.userPreference = result.preference;
-      console.log(this.userPreference);
-    });
+    this.nowPlayingMoviesList = this.store.select(MovieState.nowPlayingMoviesSelector);
+    this.upcomingMoviesList = this.store.select(MovieState.upcomingMovieSelector);
+    this.theaterList = this.store.pipe(select(MovieState.theaterList), map(result => Object.values(result)))
+    this.userPreference = this.userStore.select(UserState.userSelector);
     this.genresList = this.homeService.getGenres();
   }
 
@@ -46,4 +42,5 @@ export class HomeComponent implements OnInit {
   getNewSetofComingMovies(page) {
     this.homeService.getUpcomingMovies(page);
   }
+
 }

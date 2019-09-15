@@ -11,13 +11,27 @@
       <mat-tab label="Now Showing">
         <ng-template matTabContent class="movieList">
 
-          <div class="cards-container" fxLayout="row wrap" fxLayoutAlign="space-evenly center" fxLayoutGap="2%">
-            <ng-container *ngFor="let movie of upcomingList">
-              <app-movie-card class=" seach-movies-cards" [movie]="movie" [theaterList]="theaterList"
-                [category]="'nowPlaying'">
-              </app-movie-card>
-            </ng-container>
-          </div>
+          <!-- <div class="cards-container" fxLayout="row wrap" fxLayoutAlign="space-evenly center" fxLayoutGap="2%">
+            <cdk-virtual-scroll-viewport itemSize="500" class="virtual-store-container">
+              <ng-container *cdkVirtualFor="let movie of upcomingList">
+                <app-movie-card class="seach-movies-cards" [movie]="movie" [theaterList]="theaterList"
+                  [category]="'nowPlaying'">
+                </app-movie-card>
+              </ng-container>
+            </cdk-virtual-scroll-viewport>
+
+          </div> -->
+
+          <cdk-virtual-scroll-viewport itemSize="560" class="virtualScrollContainer">
+            <div class="movie-container">
+              <ng-container *cdkVirtualFor="let movie of upcomingList">
+                <app-movie-card class="seach-movies-cards" [movie]="movie" [theaterList]="theaterList"
+                  [category]="'nowPlaying'">
+                </app-movie-card>
+              </ng-container>
+            </div>
+
+          </cdk-virtual-scroll-viewport>
 
         </ng-template>
       </mat-tab>
@@ -25,7 +39,7 @@
         <ng-template matTabContent>
 
           <div class="cards-container" fxLayout="row wrap" fxLayoutAlign="space-evenly center">
-            <ng-container *ngFor="let movie of moviesList">
+            <ng-container *ngFor="let movie of moviesList ; trackBy:trackMovie">
               <app-movie-card class="seach-movies-cards" [movie]="movie" [theaterList]="theaterList"
                 [category]="'upComing'"></app-movie-card>
             </ng-container>
