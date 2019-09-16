@@ -19,6 +19,7 @@ export class SDialogCardsComponent implements AfterContentChecked, DoCheck, OnIn
   @Input() movieFilter; // genre
   @Input() languageList; // list of languages
   @Input() selectedLanguage; // user language selection
+  @Input() selectedVoteCount;
   userPreference: any = [];
 
   // movieList DS
@@ -26,7 +27,7 @@ export class SDialogCardsComponent implements AfterContentChecked, DoCheck, OnIn
   // code: language.key,
   // value: []
 
-  constructor(private userStore: Store<UserState.State>) {}
+  constructor(private userStore: Store<UserState.State>) { }
 
   ngOnInit(): void {
     this.userStore.select(UserState.userSelector).subscribe(result => {
@@ -35,7 +36,7 @@ export class SDialogCardsComponent implements AfterContentChecked, DoCheck, OnIn
     });
   }
 
-  ngAfterContentChecked() {}
+  ngAfterContentChecked() { }
 
-  ngDoCheck(): void {}
+  ngDoCheck(): void { }
 }

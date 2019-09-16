@@ -3,10 +3,10 @@ import { Store, State } from '@ngrx/store';
 import * as MovieState from '../../../reducers/index';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 
 import { MovieListService } from '../../../core/movie/movie-list.service';
-import {} from '../../../home/store/actions/home.action';
+import { } from '../../../home/store/actions/home.action';
 import { HomeService } from '../../../home/services/home.service';
 import { SegregateMovieService } from '../../services/segregate-movie.service';
 import { SearchApiService } from '../../services/search-api.service';
@@ -24,20 +24,29 @@ export class SDialogComponent implements OnInit, OnDestroy {
   genresList: any = [];
 
   originalMovieList: any = [];
-
+  voteCountList: any = [];
+  sortedValue: any;
   value = '';
   lang: String = 'en';
   selectedGenre: any;
+  selectedVoteCount: any;
   selectedLanguage = 'en';
   languageList: any;
-
+  originalMovieObjArray = [];
+  voteCounts: any;
   movieFilterObj = {
     filter: 'genre',
     value: ''
   };
+  voteFilterObj = {
+    key: 'vote',
+    value: ''
+  };
   movieObjArray = []; // movie seperated by language
+  voteCountFilter: FormControl;
 
   searchField = new FormControl();
+
 
   constructor(
     private store: Store<MovieState.State>,
@@ -45,16 +54,30 @@ export class SDialogComponent implements OnInit, OnDestroy {
     private movieListService: MovieListService,
     private segregateMovies: SegregateMovieService,
     private searchService: SearchApiService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // movie from store
+    this.voteCountFilter = new FormControl();
     this.store.select(MovieState.nowPlayingMoviesSelector).subscribe(result => {
+      console.log(result);
       this.originalMovieList = result;
       this.moviesList = result;
-      this.movieObjArray = this.movieListService.getLanguageList(this.moviesList); // get movies with languages
-      // console.log(this.movieObjArray);
+      this.voteCountList = result;
+      console.log(this.voteCountList);
+
+      this.movieObjArray = this.movieListService.getLanguageList(this.moviesList);
+      this.originalMovieObjArray = this.movieObjArray;
+      // get movies with languages
+      console.log(this.movieObjArray);
       // this.movieObjArray = this.segregateMovies.getSortedbyLanguage(this.languageList, this.moviesList);
+
+    });
+    this.voteCount();
+
+    this.voteCountFilter.valueChanges.subscribe(res => {
+      this.movieObjArray = this.originalMovieObjArray;
+      this.movieObjArray = this.movieListService.getVoteCount(this.movieObjArray, res);
     });
 
     // genre list from service
@@ -66,11 +89,13 @@ export class SDialogComponent implements OnInit, OnDestroy {
         searchList => {
           this.moviesList = searchList.results;
           this.movieObjArray = this.movieListService.getLanguageList(this.moviesList);
+          this.originalMovieObjArray = this.movieObjArray;
           // this.movieObjArray = this.segregateMovies.getSortedbyLanguage(this.languageList, this.moviesList);
         },
         error => {
           this.moviesList = this.searchService.searchMovieFromStore(this.originalMovieList, searchString);
           this.movieObjArray = this.movieListService.getLanguageList(this.moviesList); // get Languages
+          this.originalMovieObjArray = this.movieObjArray;
           // console.log('error', this.movieObjArray);
           // this.movieObjArray = this.segregateMovies.getSortedbyLanguage(this.languageList, this.moviesList);
         }
@@ -84,9 +109,18 @@ export class SDialogComponent implements OnInit, OnDestroy {
     this.movieFilterObj.value = this.selectedGenre;
     this.movieFilterObj = Object.assign({}, this.movieFilterObj);
   }
+  voteCount() {
+    this.voteCounts = this.voteCountList.map(item => item.vote_count);
+    console.log(this.voteCounts);
+    this.sortedValue = this.voteCounts.sort((a, b) => 0 - (a > b ? 1 : -1));
+    console.log(this.sortedValue);
+  }
 
   ngOnDestroy(): void {
     // console.log('destroy');
     this.moviesList = [];
+  }
+  trackByFn(index, item) {
+    return index;
   }
 }

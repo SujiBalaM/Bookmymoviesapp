@@ -1,5 +1,5 @@
 import { SeatReservationModalComponent } from './../../../../shared/components/modals/seat-reservation-modal/seat-reservation-modal.component';
-import { Component, OnInit, Input, OnChanges, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { BASE_URL, TMDB_URLS } from '../../../../shared/config';
@@ -15,7 +15,7 @@ import { HomeConstants } from './../../../home.constants';
   styleUrls: ['./movie-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MovieCardComponent implements OnInit, OnChanges, OnDestroy {
+export class MovieCardComponent implements OnInit, OnChanges {
   @Input()
   movie;
   @Input()
@@ -91,7 +91,7 @@ export class MovieCardComponent implements OnInit, OnChanges, OnDestroy {
       return -1;
     }
   }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.subscription.unsubscribe();
+  // }
 }

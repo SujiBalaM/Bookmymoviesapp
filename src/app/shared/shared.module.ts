@@ -12,6 +12,7 @@ import { ConfirmationModalComponent } from './components/modals/confirmation-mod
 import { PaymentBookingComponent } from './components/payment-booking/payment-booking.component';
 import { SortMoviePipe } from './pipes/sort-movie.pipe';
 import { HomeFilterPipe } from './pipes/home-filter.pipe';
+import { SortVotePipe } from './pipes/sort-vote.pipe';
 import { PreBookingComponent } from './components/modals/pre-booking/pre-booking.component';
 
 @NgModule({
@@ -23,6 +24,7 @@ import { PreBookingComponent } from './components/modals/pre-booking/pre-booking
     PaymentBookingComponent,
     SortMoviePipe,
     HomeFilterPipe,
+    SortVotePipe,
     PreBookingComponent
   ],
   imports: [
@@ -38,11 +40,11 @@ import { PreBookingComponent } from './components/modals/pre-booking/pre-booking
     MovieDropdownsComponent,
     SortMoviePipe,
     HomeFilterPipe,
+    SortVotePipe,
     PreBookingComponent,
     MaterialModule,
     FormsModule,
     ReactiveFormsModule
-
   ],
   providers: [],
   entryComponents: [ConfirmationModalComponent],

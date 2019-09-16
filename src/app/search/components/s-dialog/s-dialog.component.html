@@ -12,7 +12,8 @@
   <div class="dialog-dropdown" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="1%">
     <mat-form-field>
       <select [(ngModel)]="selectedLanguage" matNativeControl placeholder="Language">
-        <option *ngFor='let language of movieObjArray' value="{{language.code}}"> {{language.key}}</option>
+        <option *ngFor='let language of movieObjArray;trackBy:trackByFn' value="{{language.code}}"> {{language.key}}
+        </option>
 
       </select>
     </mat-form-field>
@@ -20,10 +21,15 @@
     <mat-form-field>
       <select matNativeControl placeholder="Genre" #genreId [(ngModel)]="selectedGenre"
         (ngModelChange)="changeGenere()">
-        <option *ngFor="let genre of genresList" value="{{genre.id}}">{{genre.name}}</option>
+        <option *ngFor="let genre of genresList;trackBy:trackByFn" value="{{genre.id}}">{{genre.name}}</option>
       </select>
     </mat-form-field>
 
+    <mat-form-field>
+      <mat-select placeholder="Vote Count" [formControl]='voteCountFilter'>
+        <mat-option *ngFor="let vote of sortedValue" [value]="vote">{{vote}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
   </div>
 </mat-dialog-content>
@@ -31,8 +37,8 @@
 <mat-dialog-actions>
 
 
-  <app-s-dialog-cards style="min-height: 100vh; min-width: 95vw" [movieList]="movieObjArray"
-    [movieFilter]="movieFilterObj" [languageList]="languageList" [selectedLanguage]="selectedLanguage">
+  <app-s-dialog-cards class="sdialogCard" [movieList]="movieObjArray" [movieFilter]="movieFilterObj"
+    [languageList]="languageList" [selectedLanguage]="selectedLanguage">
   </app-s-dialog-cards>
 
 

@@ -737,7 +737,7 @@ export class MovieListService {
     }
   };
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   getLanguageList(movieList) {
     const languageList = [];
@@ -775,5 +775,15 @@ export class MovieListService {
       }
     }
     return languageList;
+  }
+  getVoteCount(movieList = [], res) {
+    const result = movieList.map(item => {
+      const filteredValue = item.value.filter(s => s.vote_count > res);
+      return {
+        ...item,
+        value: filteredValue
+      };
+    });
+    return result;
   }
 }

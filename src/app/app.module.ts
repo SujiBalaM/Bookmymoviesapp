@@ -1,6 +1,9 @@
+import { LogService } from './shared/log.service';
+import { HttpRequestInterceptor } from './core/interceptors/http-req.interceptor';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,7 +18,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { AdminModule } from './admin/admin.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedModule } from './shared/shared.module';
-
+import { HttpErrorInterceptor } from './core/interceptors/error.interceptor';
 @NgModule({
   declarations: [AppComponent, ProfileComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -39,7 +42,11 @@ import { SharedModule } from './shared/shared.module';
     SharedModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [],
+  providers: [LogService, {
+    provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true
+  },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

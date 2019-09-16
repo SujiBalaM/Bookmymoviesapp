@@ -10,6 +10,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from 'angular-6-social-login';
 import { SignInService } from '../core/shell/header/service/signin.service';
 import { SharedModule } from './../shared/shared.module';
+import { MatSnackBarComponent } from './mat-snack-bar/mat-snack-bar.component';
 
 export function getAuthServiceConfigs() {
   const config = new AuthServiceConfig([
@@ -22,7 +23,7 @@ export function getAuthServiceConfigs() {
 }
 
 @NgModule({
-  declarations: [ShellComponent, HeaderComponent],
+  declarations: [ShellComponent, HeaderComponent, MatSnackBarComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CommonModule,
@@ -36,7 +37,7 @@ export function getAuthServiceConfigs() {
       useFactory: getAuthServiceConfigs
     },
     SignInService,
-    AuthService
+    AuthService, MatSnackBarComponent
   ],
   exports: [HeaderComponent]
 })
