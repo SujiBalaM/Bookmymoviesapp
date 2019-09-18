@@ -3,13 +3,11 @@ import {
   OnInit,
   Input,
   ChangeDetectionStrategy,
-  ViewChild,
   EventEmitter,
-  Output,
-  ViewEncapsulation
+  Output
+
 } from '@angular/core';
 
-import { HomeService } from '../../services/home.service';
 
 @Component({
   selector: 'app-home-page',
@@ -42,7 +40,7 @@ export class HomePageComponent implements OnInit {
   selectedLanguage = '';
   selectedGenre = '';
   languageList = [{ id: 'en', name: 'English' }, { id: 'ja', name: 'Japanese' }, { id: 'zh', name: 'Chinese' }];
-  constructor(private homeService: HomeService) { }
+  constructor() { }
 
   ngOnInit() {
     this.getNewNowPlayingMovies.emit(1);

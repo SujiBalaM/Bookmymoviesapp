@@ -2,10 +2,9 @@ import { SeatReservationModalComponent } from './../../../../shared/components/m
 import { Component, OnInit, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
-import { BASE_URL, TMDB_URLS } from '../../../../shared/config';
-import { Movie } from '../../../../search/models/search.model';
+import { TMDB_URLS } from '../../../../shared/config';
 import { PreBookingComponent } from '../../../../shared/components/modals/pre-booking/pre-booking.component';
-import { Subscription } from 'rxjs';
+
 import { HomeConstants } from './../../../home.constants';
 
 
@@ -22,13 +21,8 @@ export class MovieCardComponent implements OnInit, OnChanges {
   theaterList;
   @Input()
   category;
-  private subscription: Subscription;
   imagesPath = TMDB_URLS.IMAGE_URL;
   castCrewPath = TMDB_URLS.CAST_CREW_SMALL;
-  dialogResult;
-  rating = '4.7';
-  totalReviews = '51';
-
   minDate = new Date();
   date = new FormControl(this.minDate);
   selectTheater: FormControl;
@@ -57,7 +51,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
     return true;
   }
   checKToDialog() {
-    this.category === 'nowPlaying' ? this.openDialog() : this.preBookDialog();
+    this.category === HomeConstants.NOW_PLAYING ? this.openDialog() : this.preBookDialog();
   }
   preBookDialog() {
     const dialogRef = this.dialog.open(PreBookingComponent, {
@@ -91,7 +85,7 @@ export class MovieCardComponent implements OnInit, OnChanges {
       return -1;
     }
   }
-  // ngOnDestroy() {
-  //   this.subscription.unsubscribe();
-  // }
+  trackByFn(index, item) {
+    return index;
+  }
 }

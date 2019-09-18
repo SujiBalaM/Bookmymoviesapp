@@ -1,16 +1,18 @@
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as MovieState from '../../../reducers/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Movie } from '../../../home/models/movie.model';
 import { MovieService } from '../../services/movie.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.component.html',
   styleUrls: ['./movie.component.scss']
 })
-export class MovieComponent implements OnInit, AfterContentInit {
+export class MovieComponent implements OnInit, AfterContentInit, OnDestroy {
+  private subscription: Subscription;
   movieDetails: any;
   id;
   theaterList;
@@ -21,7 +23,7 @@ export class MovieComponent implements OnInit, AfterContentInit {
     private store: Store<MovieState.State>,
     private route: ActivatedRoute,
     private movieService: MovieService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -56,12 +58,14 @@ export class MovieComponent implements OnInit, AfterContentInit {
         this.movieData.poster_path = value.poster_path;
       });
       this.movieService.getCastAndCrew(this.id).subscribe(res => {
-        console.log(res);
         this.movieData.casts = res['cast'].splice(0, 5);
         this.movieData.crews = res['crew'].splice(0, 5);
       });
     } else {
       this.movieData = this.movieDetails;
     }
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

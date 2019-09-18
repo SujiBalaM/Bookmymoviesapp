@@ -1,5 +1,4 @@
 import { LogService } from './shared/log.service';
-import { HttpRequestInterceptor } from './core/interceptors/http-req.interceptor';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';

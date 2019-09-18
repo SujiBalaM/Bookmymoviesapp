@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as MovieState from '../../reducers/index';
 import { SetNowPlayingMovies, SetUpcomingMovies, SetCastAndCrew, SetTheaters } from '../store/actions/home.action';
@@ -8,6 +8,7 @@ import { Movie } from '../models/movie.model';
 import { BASE_URL, JSON_SERVER_URLS, TMDB_URLS } from 'src/app/shared/config';
 import { environment } from '../../../environments/environment';
 import { SetUser } from 'src/app/core/store/action/userDetails.action';
+import { mergeMap, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,25 +20,51 @@ export class HomeService {
   genres = [];
   constructor(private http: HttpClient, private store: Store<MovieState.State>) { }
 
-  getNowshowing(page = 1) {
-    this.http.get<Movie[]>(this.nowPlayingMoviesUrl + page).subscribe(
-      (movies: Movie[]) => {
-        movies['results'].forEach(element => {
-          const getCreditsUrl =
-            BASE_URL.TMDB_API + TMDB_URLS.GET_CREDITS + element.id + '/credits?' + environment.API_KEY;
+  // getNowshowing(page = 1) {
+  //   this.http.get<Movie[]>(this.nowPlayingMoviesUrl + page).subscribe(
+  //     (movies: Movie[]) => {
+  //       movies['results'].forEach(element => {
+  //         const getCreditsUrl =
+  //           BASE_URL.TMDB_API + TMDB_URLS.GET_CREDITS + element.id + '/credits?' + environment.API_KEY;
 
-          this.http.get(getCreditsUrl).subscribe(res => {
-            element.casts = res['cast'].splice(0, 5);
-            element.crews = res['crew'].splice(0, 5);
-          });
-        });
-        this.store.dispatch(new SetNowPlayingMovies(movies['results']));
-        // this.getCastAndCrew(movies['results']);
-      },
-      error => {
-        console.error(error);
-      }
-    );
+  //         this.http.get(getCreditsUrl).subscribe(res => {
+  //           element.casts = res['cast'].splice(0, 5);
+  //           element.crews = res['crew'].splice(0, 5);
+  //         });
+  //       });
+  //       this.store.dispatch(new SetNowPlayingMovies(movies['results']));
+  //       // this.getCastAndCrew(movies['results']);
+  //     },
+  //     error => {
+  //       console.error(error);
+  //     }
+  //   );
+  // }
+
+  getNowshowing(page = 1) {
+    this.http
+      .get<Movie[]>(this.nowPlayingMoviesUrl + page)
+      .pipe(
+        mergeMap((movie: Movie[]) => {
+          return forkJoin(
+            movie['results'].map(element => {
+              const getCreditsUrl =
+                BASE_URL.TMDB_API + TMDB_URLS.GET_CREDITS + element.id + '/credits?' + environment.API_KEY;
+              return this.http.get(getCreditsUrl).pipe(
+                map(res => {
+                  element.casts = res['cast'].splice(0, 5);
+                  element.crews = res['crew'].splice(0, 5);
+                  return element;
+                })
+              );
+            })
+          );
+        })
+      )
+      .subscribe((res: Movie[]) => {
+        console.log(res);
+        this.store.dispatch(new SetNowPlayingMovies(res));
+      });
   }
 
   getUpcomingMovies(page = 1) {

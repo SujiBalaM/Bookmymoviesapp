@@ -9,17 +9,23 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { MatSnackBarComponent } from './../mat-snack-bar/mat-snack-bar.component';
+import { MatSnackBarComponent } from '../../shared/components/mat-snack-bar/mat-snack-bar.component';
 import { CoreConstant } from './../core.constant';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-    constructor(public snackbar: MatSnackBarComponent, private log: LogService) { }
+    constructor(public snackbar: MatSnackBarComponent, private logger: LogService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(
-            catchError((response: HttpErrorResponse) => {
-                this.log.log(response.statusText);
-                let errorMessage = '';
+            catchError((response: any) => {
+                const storageVal = {
+                    warning: this.logger.warn(response),
+                    information: this.logger.info(response),
+                    ErrorInfo: this.logger.error(response),
+                    fatal: this.logger.fatal(response),
+                    logger: this.logger.log(response)
+                };
+                sessionStorage.setItem('Error Logger', JSON.stringify(storageVal)); let errorMessage = '';
                 if (response.status >= 400 && response.status < 500) {
                     errorMessage = CoreConstant.CLIENT;
                     this.snackbar.openSnackBar(errorMessage, 'Close', 'blue-snackbar');

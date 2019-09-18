@@ -14,7 +14,7 @@ import { SortMoviePipe } from './pipes/sort-movie.pipe';
 import { HomeFilterPipe } from './pipes/home-filter.pipe';
 import { SortVotePipe } from './pipes/sort-vote.pipe';
 import { PreBookingComponent } from './components/modals/pre-booking/pre-booking.component';
-
+import { MatSnackBarComponent } from './components/mat-snack-bar/mat-snack-bar.component';
 @NgModule({
   declarations: [
     MovieBookingComponent,
@@ -25,7 +25,8 @@ import { PreBookingComponent } from './components/modals/pre-booking/pre-booking
     SortMoviePipe,
     HomeFilterPipe,
     SortVotePipe,
-    PreBookingComponent
+    PreBookingComponent,
+    MatSnackBarComponent
   ],
   imports: [
     FormsModule,
@@ -46,7 +47,7 @@ import { PreBookingComponent } from './components/modals/pre-booking/pre-booking
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [MatSnackBarComponent],
   entryComponents: [ConfirmationModalComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

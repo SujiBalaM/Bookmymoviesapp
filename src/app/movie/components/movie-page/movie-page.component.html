@@ -48,7 +48,6 @@
             <div fxLayout="row wrap" *ngIf="theaterList && theaterList.length !== 0" fxLayoutAlign="center center"
               fxLayoutGap="3%">
 
-              <!-- <button mat-button *ngFor="let time of selectedTheater.shows ">{{time}}</button> -->
               <button mat-raised-button color="primary" (click)="checKToDialog()" class="button"
                 [disabled]="isInvalid()">
                 {{ category === 'nowPlaying' ? 'BOOK' : 'PRE-BOOK' }}</button>

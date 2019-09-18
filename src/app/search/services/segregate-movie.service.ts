@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SegregateMovieService {
-  constructor() {}
+  constructor() { }
 
   getSortedbyLanguage(languageList, moviesList) {
     const mlist = [];

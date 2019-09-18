@@ -1,11 +1,7 @@
 import { Component, OnInit, Inject, Input, OnChanges, OnDestroy } from '@angular/core';
-import { StoreFeatureModule } from '@ngrx/store';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { SeatReservationModalComponent } from '../../../shared/components/modals/seat-reservation-modal/seat-reservation-modal.component';
-import { MovieService } from '../../services/movie.service';
 import { FormControl } from '@angular/forms';
-import { Store, State } from '@ngrx/store';
-import * as MovieState from '../../../reducers/index';
 import { TMDB_URLS } from '../../../shared/config';
 import { PreBookingComponent } from '../../../shared/components/modals/pre-booking/pre-booking.component';
 import { Subscription } from 'rxjs';
@@ -26,7 +22,6 @@ export class MoviePageComponent implements OnInit, OnChanges, OnDestroy {
   date = new FormControl(this.minDate);
   selectedTheater;
   selectedDate;
-  dialogResult;
   rating = new Array(5);
   selectedTime;
   constructor(public dialog: MatDialog) {
