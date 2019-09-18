@@ -4,7 +4,7 @@ import { TestBed, ComponentFixture, fakeAsync, tick, flush, async } from '@angul
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MovieDropdownsComponent } from './movie-dropdowns.component';
 import { MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
-import { FlexLayoutModule } from "@angular/flex-layout";
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { of } from 'rxjs';
 export class MockHomeService {

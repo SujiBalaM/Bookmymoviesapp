@@ -22,7 +22,9 @@ describe('PreBookingComponent', () => {
             schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
             imports: [MatDialogModule, BrowserAnimationsModule, MatInputModule],
             providers: [{ provide: MatDialogRef, useValue: matDialogRefStub },
-            { provide: MatDialog, useValue: matDialogStub }, { provide: Router, useClass: MockRouter }, { provide: MAT_DIALOG_DATA, useValue: matDialogStub }]
+            { provide: MatDialog, useValue: matDialogStub },
+            { provide: Router, useClass: MockRouter },
+            { provide: MAT_DIALOG_DATA, useValue: matDialogStub }]
         }).compileComponents();
     }));
     beforeEach(() => {
@@ -40,12 +42,12 @@ describe('PreBookingComponent', () => {
     //     expect(spy).toHaveBeenCalled();
     // });
     it('should run onClose()', async () => {
-        const matDialogRefStub = fixture.debugElement.injector.get(
+        const matDialogRefStubs = fixture.debugElement.injector.get(
             MatDialogRef
         );
         spyOn(matDialogRefStub, 'close').and.callThrough();
         component.onCloseConfirm();
-        expect(matDialogRefStub.close).toHaveBeenCalled();
+        expect(matDialogRefStubs.close).toHaveBeenCalled();
 
     });
 

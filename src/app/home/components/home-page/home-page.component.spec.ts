@@ -16,7 +16,8 @@ describe('HomePageComponent', () => {
         TestBed.configureTestingModule({
             declarations: [HomePageComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatMenuModule, MatSelectModule, MatInputModule, BrowserAnimationsModule],
+            imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule,
+                MatMenuModule, MatSelectModule, MatInputModule, BrowserAnimationsModule],
             providers: [HomeService, { provide: HomeService, useClass: MockHomeService }]
 
         }).compileComponents();

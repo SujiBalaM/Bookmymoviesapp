@@ -12,8 +12,8 @@ const dialogMock = {
     open: () => {
         return;
     }
-}
-const matDialogRefStub = { close: () => ({}) };
+};
+const matDialogRefStubs = { close: () => ({}) };
 const matDialogStub = {};
 describe('PreBookingComponent', () => {
     let component: PreBookingComponent;
@@ -24,7 +24,7 @@ describe('PreBookingComponent', () => {
             declarations: [PreBookingComponent],
             schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
             imports: [MatDialogModule, BrowserAnimationsModule, MatInputModule],
-            providers: [{ provide: MatDialogRef, useValue: matDialogRefStub },
+            providers: [{ provide: MatDialogRef, useValue: matDialogRefStubs },
             { provide: MatDialog, useValue: dialogMock }, { provide: MAT_DIALOG_DATA, useValue: matDialogStub }]
         }).compileComponents();
     }));
@@ -46,7 +46,7 @@ describe('PreBookingComponent', () => {
         const matDialogRefStub = fixture.debugElement.injector.get(
             MatDialogRef
         );
-        spyOn(matDialogRefStub, 'close').and.callThrough();
+        spyOn(matDialogRefStubs, 'close').and.callThrough();
         component.onNoClick();
         expect(matDialogRefStub.close).toHaveBeenCalled();
 

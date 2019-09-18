@@ -21,7 +21,8 @@ describe('PaymentBookingComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [PaymentBookingComponent],
-            imports: [RouterTestingModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatMenuModule, MatSelectModule, MatInputModule, BrowserAnimationsModule],
+            imports: [RouterTestingModule, ReactiveFormsModule,
+                MatDialogModule, MatFormFieldModule, MatMenuModule, MatSelectModule, MatInputModule, BrowserAnimationsModule],
             schemas: [NO_ERRORS_SCHEMA],
             providers: [{ provide: MatDialog, useValue: dialogMock }]
         }).compileComponents();

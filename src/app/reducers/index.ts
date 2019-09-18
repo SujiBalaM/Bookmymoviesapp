@@ -1,4 +1,5 @@
 import { ActionReducer, ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from '@ngrx/store';
+
 import { environment } from '../../environments/environment';
 import { MoviesState, moviesReducer, initialMovieState } from '../home/store/reducers/home.reducer';
 import { UserState, userReducer, initialUserState } from '../core/store/reducers/userDetails.reducer';
@@ -25,4 +26,5 @@ export const theaterList = createSelector(getMovieState, (state: MoviesState) =>
 
 export const getUserState = createFeatureSelector<UserState>('user');
 export const userSelector = createSelector(getUserState, (state: UserState) => state.user);
+
 

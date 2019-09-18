@@ -73,7 +73,7 @@ export class LogService {
     if (params.some(p => typeof p === 'object')) {
       ret = '';
       // Build comma-delimited string
-      for (let item of params) {
+      for (const item of params) {
         ret += JSON.stringify(item) + ',';
       }
     }

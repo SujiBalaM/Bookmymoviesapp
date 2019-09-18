@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
     this.getNewSetofNowPlayingMovies(1);
     this.nowPlayingMoviesList = this.store.select(MovieState.nowPlayingMoviesSelector);
     this.upcomingMoviesList = this.store.select(MovieState.upcomingMovieSelector);
-    this.theaterList = this.store.pipe(select(MovieState.theaterList), map(result => Object.values(result)))
+    this.theaterList = this.store.pipe(select(MovieState.theaterList), map(result => Object.values(result)));
     this.userPreference = this.userStore.select(UserState.userSelector);
     this.genresList = this.homeService.getGenres();
   }

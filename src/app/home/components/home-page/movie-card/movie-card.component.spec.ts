@@ -32,7 +32,7 @@ describe('MovieCardComponent', () => {
     let component: MovieCardComponent;
     let fixture: ComponentFixture<MovieCardComponent>;
     let dialog: MatDialog;
-    let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of({}), close: null });
+    const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of({}), close: null });
     dialogRefSpyObj.componentInstance = { body: '' };
     beforeEach(async(() => {
         TestBed.configureTestingModule({
